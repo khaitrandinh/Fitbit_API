@@ -1,0 +1,92 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitbit Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Dữ liệu bước chân từ Fitbit</h1>
+    <% if (!stepsData) { %>
+        <p>Bạn chưa đăng nhập. <a href="/authorize">Đăng nhập với Fitbit</a></p>
+    <% } else { %>
+        <canvas id="stepsChart" width="400" height="200"></canvas>
+        <script>
+            var ctx = document.getElementById('stepsChart').getContext('2d');
+            var stepsData =  JSON.stringify(stepsData) ;
+            
+
+            var stepsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Ngày 1', 'Ngày 2', 'Ngày 3', 'Ngày 4', 'Ngày 5', 'Ngày 6', 'Ngày 7'],
+                    datasets: [{
+                        label: 'Bước chân',
+                        data: stepsData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    <% } %>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitbit Data - 1 Month</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Dữ liệu bước chân từ Fitbit (1 tháng)</h1>
+    <% if (!stepsData) { %>
+        <p>Bạn chưa đăng nhập. <a href="/authorize">Đăng nhập với Fitbit</a></p>
+    <% } else { %>
+        <canvas id="stepsChart" width="400" height="200"></canvas>
+        <script>
+            // Gắn dữ liệu từ server
+            var stepsData =  JSON.stringify(stepsData);
+
+            // Chuyển đổi dữ liệu: lấy ngày và bước chân
+            var labels = stepsData.map(day => day.date);  // Lấy mảng ngày
+            var data = stepsData.map(day => day.value);   // Lấy mảng số bước chân
+
+            // Khởi tạo biểu đồ
+            var ctx = document.getElementById('stepsChart').getContext('2d');
+            var stepsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,  // Gán nhãn là các ngày
+                    datasets: [{
+                        label: 'Bước chân mỗi ngày',
+                        data: data,   // Dữ liệu số bước chân
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    <% } %>
+</body>
+</html>
